@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.navbar{
+	background-color: rgb(128,129,248);
+	color: white;
+	width: 100%;
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    height: 50px
+}
+
+.navbar h3 {
+    font-size: 24px;
+    font-weight:normal; 
+}
+
+.navbar ul {
+    list-style-type: none;
+    
+    
+}
+
+.navbar ul li {
+    display: inline;
+    margin-left: 20px; 
+}
+
+.navbar a {
+    color: #fff;
+    font-size: 18px;
+    text-decoration:none;
+
+}
+
+
+/* Main text box styling */
+.text-box h1 {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 46px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height: 40vh;
+ 
+}
+
+.searchForm {
+	display:flex;
+	justify-content: center;
+	align-items:center;
+}
+
+
+.searchForm input[type='text'] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    border: 2px solid rgb(128,129,248); 
+    border-radius: 5px; 
+    padding: 5px;
+    width: 30%; 
+}
+
+
+
+.searchForm button {
+    background-color: rgb(128,129,248); 
+    border: none; 
+    cursor: pointer; 
+    padding: 5px; 
+}
+
+.searchForm button i {
+    color: white; 
+    font-size: 20px; 
+}
+
+.stockInfo{
+	text-align: center;
+}
+
+.stockInfo p {
+  margin-top: 15px; 
+  margin-bottom: 10px; 
+}
+.stockInfo h1 {
+  margin-top: 10px; 
+  margin-bottom: 10px;
+  font-weight: 200;
+}
+
+
+.stockInfo h2 {
+  margin-top: 10px; 
+  margin-bottom: 10px;
+  font-weight: 100; 
+}
+.stockInfo .ticker,
+.stockInfo .name,
+.stockInfo .exchange,
+.stockInfo .summary {
+  text-align: center;
+}
+
+.stockInfo .hp, .stockInfo .info {
+  position: relative;
+  padding-top: 10px;
+}
+
+.stockInfo .hp::after, .stockInfo .info::after {
+  content: '';
+  display: block;
+  margin: 0 auto; 
+  width: 50%; 
+  height: 2px; 
+  background-color: black; 
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: lightgrey;
+  
+}
+
+
+.stockInfo .IPO,
+.stockInfo .MC,
+.stockInfo .SO,
+.stockInfo .W,
+.stockInfo .PH{
+  text-align: left;
+  margin-left:370px;
+}
+
+
+.stockInfo .wu {
+  text-decoration: underline;
+  color: blue; 
+  cursor: pointer;
+}
+
+
+
+.stockInfo1{
+	text-align: center;
+}
+
+.stockInfo1 p {
+  margin-top: 15px; 
+  margin-bottom: 10px; 
+}
+.stockInfo1 h1 {
+  margin-top: 10px;  
+  margin-bottom: 10px;
+  font-weight: 200; 
+}
+
+
+.stockInfo1 h2 {
+  margin-top: 10px; 
+  margin-bottom: 10px;
+  font-weight: 100; 
+}
+.stockInfo1 .ticker,
+.stockInfo1 .name,
+.stockInfo1 .exchange,
+.stockInfo1 .summary {
+  text-align: center;
+}
+
+
+.stockInfo1 .hp, .stockInfo1 .info {
+  position: relative;
+  padding-top: 10px;
+}
+
+.stockInfo1 .hp::after, .stockInfo1 .info::after {
+  content: '';
+  display: block;
+  margin: 0 auto; 
+  width: 80%; 
+  height: 2px; 
+  background-color: black;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: lightgrey;
+  
+}
+
+.stockInfo1 .IPO,
+.stockInfo1 .MC,
+.stockInfo1 .SO,
+.stockInfo1 .W,
+.stockInfo1 .PH{
+  text-align: left;
+  margin-left:150px;
+}
+
+.stockInfo1 .ticker,
+.stockInfo1 .name,
+.stockInfo1 .exchange{
+  text-align: left;
+  margin-left: 150px;
+}
+
+.buyButton{
+  text-align: left;
+  margin-left:150px;
+}
+
+
+
+.stockInfo1 .wu {
+  text-decoration: underline;
+  color: blue; 
+  cursor: pointer;
+}
+
+.quantity-row {
+    display: flex; 
+    align-items: center; 
+}
+
+.quantity-row p {
+    margin-right: 10px; 
+}
+
+#buyStock {
+    background-color: green; 
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    cursor: pointer; 
+    border-radius: 5px; 
+}
+
+
+#numStocks {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+#green {
+    margin-left:1000px; 
+    font-size: 20px;
+}
+
+
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    //buy stock logic
+    document.getElementById('buyStockForm').addEventListener('submit', function(event){
+        event.preventDefault();
+        buyStock();
+    });
+
+    // Function to add a submit event listener to a form
+    function addSubmitListenerToForm(formId, tickerInputId, stockInfoId) {
+        var form = document.getElementById(formId);
+        if (!form) {
+            console.error('Form with ID ' + formId + ' not found.');
+            return;
+        }
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+			
+            console.log("Entered for form: " + formId);
+            var ticker = document.getElementById(tickerInputId).value;
+            var stockInfo = document.getElementById(stockInfoId);
+
+            if (ticker) {
+                var xhr = new XMLHttpRequest();
+
+                xhr.open('GET', '/assignment_4/getTrade?ticker=' + encodeURIComponent(ticker), true);
+
+                xhr.onload = function() {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        var response = JSON.parse(xhr.responseText);
+						localStorage.setItem("price", response.c);
+						localStorage.setItem("ticker", ticker);
+                        console.log(response);
+						if(!isLoggedIn){
+							document.getElementById('stockInfo').style.display = 'block';
+							document.getElementById('tickerPlaceholder').textContent = ticker;
+		                    document.getElementById('namePlaceholder').textContent = response.name;
+		                    document.getElementById('exchangePlaceholder').textContent = response.exchange;
+		                    document.getElementById('hpPlaceholder').textContent = response.h;
+		                    document.getElementById('lpPlaceholder').textContent = response.l;
+		                    document.getElementById('opPlaceholder').textContent = response.o;
+		                    document.getElementById('cpPlaceholder').textContent = response.c;
+		                    document.getElementById('ipoPlaceholder').textContent = response.ipo;
+		                    document.getElementById('marketCapPlaceholder').textContent = response.marketCapitalization;
+		                    document.getElementById('shareOutPlaceholder').textContent = response.shareOutstanding;
+		                    document.getElementById('weburlPlaceholder').href = response.weburl;
+		                    document.getElementById('weburlPlaceholder').textContent = response.weburl;
+		                    document.getElementById('phonePlaceholder').textContent = response.phone;
+		                }
+						else {
+							var containerElement = document.getElementById("green");
+						    var lastPriceElement = document.querySelector(".change");
+						    var arrow = response.dp >= 0 ? "&#x25B2;" : "&#x25BC;";
+
+
+						    if (response.dp >= 0) {
+						        containerElement.style.color = "green"; // Change text color to green
+						    } else {
+						        containerElement.style.color = "red"; // Change text color to red
+						    }
+
+						    // Insert the arrow next to the last price
+						    lastPriceElement.innerHTML = ` <span>${arrow}</span>` + lastPriceElement.innerHTML;
+						    var currentTimeElement = document.getElementById("currentTime");
+						    var now = new Date();
+						    var formattedTime = [
+						        ('0' + (now.getMonth() + 1)).slice(-2),
+						        ('0' + now.getDate()).slice(-2),
+						        now.getFullYear()
+						    ].join('-') + ' ' + [
+						        ('0' + now.getHours()).slice(-2),
+						        ('0' + now.getMinutes()).slice(-2),
+						        ('0' + now.getSeconds()).slice(-2)
+						    ].join(':');
+
+						    currentTimeElement.textContent = formattedTime;
+						    
+						    
+						    document.getElementById('buyButton').style.display = 'block';
+						    document.getElementById('stockInfo1').style.display = 'block';
+						    document.getElementById('tickerPlaceholder1').textContent = ticker;
+						    document.getElementById('namePlaceholder1').textContent = response.name;
+						    document.getElementById('exchangePlaceholder1').textContent = response.exchange;
+						    document.getElementById('lastPrice').textContent = response.l;
+						    document.getElementById('change').textContent = response.d;
+						    document.getElementById('changePercentage').textContent = response.dp;
+						    document.getElementById('marketStatusPlaceholder').textContent = response.marketStatus ? 'Market is open' : 'Market is closed';
+						    document.getElementById('hpPlaceholder1').textContent = response.h;
+						    document.getElementById('lpPlaceholder1').textContent = response.l;
+						    document.getElementById('opPlaceholder1').textContent = response.o;
+						    document.getElementById('cpPlaceholder1').textContent = response.c;
+						    document.getElementById('ipoPlaceholder1').textContent = response.ipo;
+						    document.getElementById('marketCapPlaceholder1').textContent = response.marketCapitalization;
+						    document.getElementById('shareOutPlaceholder1').textContent = response.shareOutstanding;
+						    document.getElementById('weburlPlaceholder1').href = response.weburl;
+						    document.getElementById('weburlPlaceholder1').textContent = response.weburl;
+						    document.getElementById('phonePlaceholder1').textContent = response.phone;
+						}
+                    } else {
+                        console.error('Request failed');
+                    }
+                };
+
+                xhr.send();
+            } else {
+                console.log('Ticker symbol is required');
+            }
+        });
+    }
+
+    addSubmitListenerToForm('stockSearchForm', 'tickerInput', 'stockInfo');
+    addSubmitListenerToForm('stockSearchForm1', 'tickerInput1', 'stockInfo1');
+    
+});
+
+var isLoggedIn = false;
+
+function checkLogin(){
+    fetch('/assignment_4/isLoggedIn')
+        .then(response => response.json())
+        .then(data => {
+            if(data.userLoggedIn){
+                displayLoggedInNavbar();
+                isLoggedIn = true;
+            }
+            else{
+                displayLoggedOutNavbar();
+                isLoggedIn = false;
+            }
+        })
+        .catch(error => console.error("Error: ", error));
+}
+
+function displayLoggedInNavbar(){
+    document.getElementById('logged-in').style.display = 'block';
+    document.getElementById('logged-out').style.display = 'none';
+}
+
+function displayLoggedOutNavbar(){
+    document.getElementById('logged-out').style.display = 'block';
+    document.getElementById('logged-in').style.display = 'none';
+}
+
+document.addEventListener('DOMContentLoaded', checkLogin);
+
+function logOut(){
+    fetch('/assignment_4/logoutUser', {
+        method: 'GET',
+        credentials: 'include'
+    });
+}
+
+function removeSearch(){
+	document.getElementById('text-box').style.display = 'none';
+}
+
+function buyStock(){
+    var numStocks = document.getElementById('numStocks').value;
+    var price = localStorage.getItem("price");
+    var ticker = localStorage.getItem("ticker");
+    
+    if(!numStocks){
+    	alert("FAILED: Purchase not possible");
+    }
+    const url = "http://localhost:8080/assignment_4/buyTrade";
+    const encodedTicker = encodeURIComponent(ticker);
+	const encodedNumStock = encodeURIComponent(numStocks);
+	const encodedPrice = encodeURIComponent(price);
+
+// Construct the full URL with encoded parameters
+	const fullUrl = `${url}?ticker=${encodedTicker}&numStock=${encodedNumStock}&price=${encodedPrice}`;
+
+    
+    fetch(fullUrl, {
+		method: 'POST',
+		credentials: 'include'
+	})
+    	.then(response =>response.json())
+    	.then(data => {
+			if(data.status){
+				console.log("Success");
+				alert(`Bought ${numStocks} shares of ${ticker} for $${price}`);
+			}
+			else{
+				console.log("Failure")
+				alert("FAILED: Purchase not possible");
+			}
+		})
+    	.catch(error => console.error("Error: ", error));
+    
+    
+}
+
+
+
+
+function removeSearch(){
+	document.getElementById('text-box').style.display = 'none';
+}
+
+function removeSearch1(){
+	document.getElementById('text-box1').style.display = 'none';
+}
+
+</script>
+
+<section class="header">
+<div id='logged-out' style="display: none;">
+    <nav>
+    <div class="navbar">
+        <h3>JoesStocks</h3>
+        <ul>
+        <li><a class="active" href='index.html' >Home / Search</a></li>
+        <li><a class="active" href='login.html' >Login / Sign up</a></li>
+        </ul>
+    </div>
+    </nav>
+    <div id='text-box' class="text-box" style="display: block;">
+    <h1>SEARCH STOCKS</h1>
+    <form id="stockSearchForm" class="searchForm">
+    <input type='text' id="tickerInput" placeholder='Search by ticker...'>
+    <button type='submit' id='searchButton' onClick = "removeSearch();" ><i class="fas fa-search"></i></button>
+    </form>
+	</div>
+<div id="stockInfo" class="stockInfo" style="display: none;">
+    <h1 class='ticker'><span id="tickerPlaceholder"></span></h1>
+    <h2 class='name'><span id="namePlaceholder"></span></h2>
+    <p class='exchange'><span id="exchangePlaceholder"></span></p>
+    <p class='summary'>Summary</p>
+    <p class='hp'style="font-weight: bold;">High price: <span id="hpPlaceholder"></span></p>
+    <p class='lp'style="font-weight: bold;">Low price: <span id="lpPlaceholder"></span></p>
+    <p class='op'style="font-weight: bold;">Open price: <span id="opPlaceholder"></span></p>
+    <p class='cp'style="font-weight: bold;">Current price: <span id="cpPlaceholder"></span></p>
+    <h1 class='info'>Company Information</h1>
+    <p class='IPO'><span style="font-weight: bold;">IPO date:</span> <span id="ipoPlaceholder"></span></p>
+    <p class='MC'><span style="font-weight: bold;">Market Cap ($M):</span> <span id="marketCapPlaceholder"></span></p>
+    <p class='SO'><span style="font-weight: bold;">Share Outstanding:</span> <span id="shareOutPlaceholder"></span></p>
+    <p class='W'><span style="font-weight: bold;">Website:</span> <a id="weburlPlaceholder" href="#" target="_blank"></a></p>
+    <p class='PH'><span style="font-weight: bold;">Phone:</span> <span id="phonePlaceholder"></span></p>
+</div>
+</div>
+    
+<div id='logged-in' style="display: none;">
+    <nav>
+    <div class="navbar">
+        <h2>JoesStocks</h2>
+        <ul>
+        <li><a class="active" href='index.html' >Home / Search</a></li>
+        <li><a class="active" href='portfolio.html' >Portfolio</a></li>
+        <li><a class="active" onClick="logOut();" href='index.html' >Logout</a></li>
+        </ul>
+    </div>
+    </nav>
+    <div id='text-box1' class="text-box" style="display: block;">
+    <h1>SEARCH STOCKS</h1>
+    <form id="stockSearchForm1" class="searchForm">
+    <input type='text' id="tickerInput1" placeholder='Search by ticker...'>
+    <button type='submit' id='searchButton' onClick = "removeSearch1();"><i class="fas fa-search"></i></button>
+    </form>
+    </div>
+    
+ 
+<div id="stockInfo1" class="stockInfo1" style="display: none;">
+    <h1 class='ticker'><span id="tickerPlaceholder1"></span></h1>
+    <h2 class='name'><span id="namePlaceholder1"></span></h2>
+    <p class='exchange'><span id="exchangePlaceholder1"></span></p>
+<div class='buyButton' id="buyButton" style="display: none;">
+    <div class="quantity-row"> 
+        <p>Quantity:</p>
+        <form id="buyStockForm">
+            <input type='text' id='numStocks' placeholder=''>
+            <button type='submit' id='buyStock'>Buy</button>
+        </form>
+    </div>
+</div>
+<div id="green">
+ 	<h1 class='lastPrice'><span id="lastPrice"></span></h1>
+ 	<h2 class='change'><span id="change"></span> (<span id="changePercentage"></span>%)</h2>
+ 	<p id="currentTime"></p>
+</div>
+ 	
+    <p class='market-status'><span id="marketStatusPlaceholder"></span></p>
+    <p class='summary'>Summary</p>
+    <p class='hp' style="font-weight: bold;">High price: <span id="hpPlaceholder1"></span></p>
+    <p class='lp' style="font-weight: bold;">Low price: <span id="lpPlaceholder1"></span></p>
+    <p class='op' style="font-weight: bold;">Open price: <span id="opPlaceholder1"></span></p>
+    <p class='cp' style="font-weight: bold;">Current price: <span id="cpPlaceholder1"></span></p>
+    <h1 class='info'>Company Information</h1>
+    <p class='IPO'><span style="font-weight: bold;">IPO date:</span> <span id="ipoPlaceholder1"></span></p>
+    <p class='MC'><span style="font-weight: bold;">Market Cap ($M):</span> <span id="marketCapPlaceholder1"></span></p>
+    <p class='SO'><span style="font-weight: bold;">Share Outstanding:</span> <span id="shareOutPlaceholder1"></span></p>
+    <p class='W'><span style="font-weight: bold;">Website:</span> <a id="weburlPlaceholder1" href="#" target="_blank"></a></p>
+    <p class='PH'><span style="font-weight: bold;">Phone:</span> <span id="phonePlaceholder1"></span></p>
+</div>
+</div>
+</section>
+
+</body>
+</html>

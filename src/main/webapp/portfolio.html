@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+
+@charset "UTF-8";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.navbar{
+	background-color: rgb(128,129,248);
+	color: white;
+	width: 100%;
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    height: 50px
+}
+
+.navbar h3 {
+    font-size: 24px;
+    font-weight:normal; 
+}
+
+.navbar ul {
+    list-style-type: none;
+    
+    
+}
+
+.navbar ul li {
+    display: inline;
+    margin-left: 20px; 
+}
+
+.navbar a {
+    color: #fff;
+    font-size: 18px;
+    text-decoration:none;
+
+}
+
+.portfolio h1{
+	font-weight: 100;
+	font-size: 30px;
+	
+
+}
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    height: 80%; 
+}
+
+.portfolio {
+    width: 80%; 
+    max-width: 800px; 
+
+}
+
+
+
+.card {
+	position: relative;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    margin-top:10px;
+    align-items:center;
+    display: flex;
+    flex-direction: column;
+}
+
+.card h1 {
+    margin-bottom: 10px;
+    position: absolute; /* Set position to absolute */
+    top: 0; /* Position at the top */
+    left: 0;
+    font-size: 20px;
+}
+
+.card table{
+margin-top:10px;
+height: 20vh;
+
+}
+
+.card table td{
+	padding: 5px 10px;
+
+}
+.card p {
+    margin-bottom: 5px;
+}
+
+.quantity-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.quantity-container input,
+.quantity-container .buy-sell-container,
+.quantity-container .submit-btn {
+    margin-top: 5px; 
+}
+
+.buy-sell-container {
+    display: flex;
+}
+
+.buy-sell-container label {
+    margin-right: 10px; 
+}
+
+
+</style>
+</head>
+<body>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    function fetchPortfolioData() {
+        fetch('/assignment_4/getPortfolio')
+            .then(response => response.json())
+            .then(data => {
+                const cashBalanceSpan = document.getElementById('cashBalance');
+                cashBalanceSpan.textContent = data.balance.toFixed(2);
+
+                const stockContainer = document.getElementById('stock-container');
+                // Clear existing stock container
+                stockContainer.innerHTML = '';
+
+                data.data.forEach(item => {
+                    // Create card elements
+                    const averageCost = item.total_cost / item.num_stock;
+                    const marketValue = item.c * item.num_stock;
+
+                    const card = document.createElement('div');
+                    card.classList.add('card');
+
+                    let changeColor, arrowSymbol;
+                    if (item.d > 0) {
+                        changeColor = 'green';
+                        arrowSymbol = '&#x25B2;';
+                    } else if (item.d < 0) {
+                        changeColor = 'red';
+                        arrowSymbol = '&#x25BC;';
+                    } else {
+                        changeColor = 'black';
+                        arrowSymbol = '';
+                    }
+
+                    card.innerHTML =  `
+                        <h1>${item.ticker} - ${item.exchangeName}</h1>
+                        <div class="table container">
+                            <table>
+                                <tr>
+                                    <td>Quantity: ${item.num_stock}</td>
+                                    <td> Change: <span style="color: ${changeColor};">${arrowSymbol} ${item.d}</span></td>
+                                </tr>
+                                <tr>
+                                    <td> Avg. Cost/Share: ${averageCost.toFixed(2)}</td>
+                                    <td> Current price: ${item.c} </td>
+                                </tr>
+                                <tr>
+                                    <td> Total cost: ${item.total_cost}</td>
+                                    <td> Market value:  ${marketValue.toFixed(2)} </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="quantity-container">
+                            <label for="quantityInput">Quantity:</label>
+                            <input type="text" id="quantityInput" >
+                            <div class="buy-sell-container">
+                                <input type="radio" id="buy" name="buy-sell" value="buy">
+                                <label for="buy">BUY</label>
+                                <input type="radio" id="sell" name="buy-sell" value="sell">
+                                <label for="sell">SELL</label>
+                                <button class="submit-btn" type="submit">Submit</button>
+                            </div>
+                        </div>
+                    `;
+
+                    // Append the card to the stock container
+                    stockContainer.appendChild(card);
+
+                    // Add event listener to the submit button
+                    const submitButton = card.querySelector('.submit-btn');
+                    submitButton.addEventListener('click', function() {
+                    	doTrade(card,item);
+                    });
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    }
+    function doTrade(card, item) {
+	    var buyRadio = card.querySelector('#buy');
+	    var sellRadio = card.querySelector('#sell');
+	    const quantityInput = card.querySelector('#quantityInput').value;
+
+	    console.log(buyRadio.checked);
+	    if (!buyRadio.checked && !sellRadio.checked) {
+	        alert(`FAILED, transaction not possible`);
+	        return false;
+	    }
+	    var url = "";
+	    if (buyRadio.checked) {
+	        url = "http://localhost:8080/assignment_4/buyTrade"
+
+	    } else {
+	        url = "http://localhost:8080/assignment_4/sellTrade";
+	    }
+
+	    const encodedTicker = encodeURIComponent(item.ticker);
+	    const encodedNumStock = encodeURIComponent(quantityInput);
+	    const encodedPrice = encodeURIComponent(item.c);
+
+	    // Construct the full URL with encoded parameters
+	    const fullUrl = `${url}?ticker=${encodedTicker}&numStock=${encodedNumStock}&price=${encodedPrice}`;
+
+	    fetch(fullUrl, {
+	            method: 'POST',
+	            credentials: 'include'
+	        })
+	        .then(response => response.json())
+	        .then(data => {
+	            if (data.status) {
+	                console.log("Success");
+	                var text = "";
+	                if (buyRadio.checked) {
+	                    text = "BOUGHT";
+	                } else if (sellRadio.checked) {
+	                    text = "SOLD";
+	                } else {
+	                    alert(`FAILED, transaction not possible`);
+
+	                }
+	                alert(`${text} ${quantityInput} ${item.ticker} stock(s)`);
+	                fetchPortfolioData();
+	            } else {
+	                console.log("Failure");
+	                alert(`FAILED, transaction not possible`);
+	            }
+	        })
+	        .catch(error => console.log(error));
+	}
+    fetchPortfolioData();
+});
+
+ 
+ document.addEventListener('DOMContentLoaded', checkLogin);
+ 
+ 
+
+ function logOut(){
+    fetch('/assignment_4/logoutUser', {
+        method: 'GET',
+        credentials: 'include'
+    });
+}
+
+</script>
+
+<section class="header">
+
+	<nav id='navbar-logged-in' >
+	<div class="navbar">
+		<h2>JoesStocks</h2>
+		<ul>
+		<li><a class="active" href='index.html' >Home/Search</a></li>
+		<li><a class="active" onClick="logOut();" href='index.html' >Logout</a></li>
+		</ul>
+	</div>
+	</nav>
+	<div class="container">
+	<div class="portfolio">
+	
+	<h1>My portfolio</h1>
+	<h1>Cash balance: $<span id="cashBalance"></span></h1>
+	<h1>Total account value: $50000.00</h1>
+	
+	<div id="stock-container">
+
+    </div>
+	
+	</div>
+	</div>
+
+
+
+
+</section>
+</body>
+</html>

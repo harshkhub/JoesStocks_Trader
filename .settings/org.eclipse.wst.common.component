@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="assignment_4">
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <dependent-module archiveName="hutool-all-5.8.16.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib//Users/harsh/Downloads/hutool-all-5.8.16.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="assignment_4"/>
+        <property name="java-output-path" value="/assignment_4/build/classes"/>
+    </wb-module>
+</project-modules>

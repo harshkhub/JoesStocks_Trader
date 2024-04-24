@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    .navbar{
+	background-color: rgb(128,129,248);
+	color: white;
+	width: 100%;
+	display: flex;
+	position: fixed;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    height: 50px
+}
+
+.navbar h3 {
+    font-size: 24px;
+    font-weight:normal; 
+}
+
+.navbar ul {
+    list-style-type: none;
+    
+    
+}
+
+.navbar ul li {
+    display: inline;
+    margin-left: 20px; 
+}
+
+.navbar a {
+    color: #fff;
+    font-size: 18px;
+    text-decoration:none;
+ 
+}
+
+.login, .signUp {
+        flex: 1;
+        padding: 20px;
+        text-align: center;
+        margin-top:50px;
+        text-align:left;
+        font-size:14px;
+    }
+    
+ .signUp  h1{
+  	font-size: 16px;
+  	color: rgb(195,195,195);
+  	}
+  	    
+  .login h1{
+  	font-size: 16px;
+  	}
+  	
+	.signUp  h2{
+  	font-size: 13px;
+  	}
+  	    
+  .login h2{
+  	font-size: 13px;
+  	}
+
+    #logInButton, #signUpButton {
+        background-color: rgb(117,20,12);
+        color: white;
+        border: none;
+        padding: 10px;
+        margin-top: 10px; 
+        cursor: pointer;
+    }
+
+    section.header {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-bottom:20px
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    input[type="text"], input[type="password"] {
+        margin-bottom: 10px;
+        height: 40px;
+        margin-top:10px;
+        padding: 10px; 
+	    border: 2px solid black; 
+	    border-radius: 4px; 
+    }
+    
+    body, html {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    color: rgb(190,190,190); 
+}
+
+#logInButton, #signUpButton {
+
+    padding: 12px 20px; 
+    border: 2px solid; 
+    border-radius: 4px; 
+}
+</style>
+</head>
+<body>
+<script src="js/login.js"></script>
+
+
+<section class="header">
+	<nav id='navbar-logged-out' style="display: none;">
+	<div class="navbar">
+		<h2>JoesStocks</h2>
+		<ul>
+		<li><a class="active" href='index.html' >Home/Search</a></li>
+		<li><a class="active" href='login.html' >Login/Sign up</a></li>
+		</ul>
+	</div>
+	</nav>
+	<nav id='navbar-logged-in' style="display: none;" >
+	<div class="navbar">
+		<h2>JoesStocks</h2>
+		<ul>
+		<li><a class="active" href='index.html' >Home/Search</a></li>
+		<li><a class="active" href='portfolio.html' >Portfolio</a></li>
+		<li><a class="active" onClick="logOut();" href='index.html' >Logout</a></li>
+		</ul>
+	</div>
+	</nav>
+	<div class="login">
+	<h1>Login</h1>
+		<form id="logInForm" onsubmit="loginUser(event);" >
+			<h2>Username:</h2>
+			<input type='text' id="Username" placeholder=''>
+			<h2>Password:</h2>
+			<input type="password" id="Password" placeholder='' required>
+			<button type='submit' id='logInButton' >Submit</button>
+		</form>
+	</div>
+	
+	<div class="signUp">
+	<h1>Sign up</h1>
+		<form id="signUpForm" onsubmit="registerUser(event);">
+			<h2>Email:</h2>
+			<input type='text' id="EmailReg" placeholder=''>
+			<h2>Username:</h2>
+			<input type='text' id="UsernameReg" placeholder=''>
+			<h2>Password:</h2>
+			<input type="password" id="PasswordReg" placeholder='' required>
+			<h2>Confirm password:</h2>
+			<input type="password" id="confirmPassword" placeholder='' required>
+			<button type='submit' id='signUpButton' >Submit</button>
+		</form>
+	</div>
+</section>
+</body>
+</html>
