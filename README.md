@@ -1,6 +1,6 @@
 # JoesStocks_Trader
 
-
+![Logo](/search.png)
 
 This Stock Trading Platform is a full-stack web application allowing users to authenticate, purchase stocks, sell them, and view their portfolio. It pulls live stock data from the Finnhub API and utilizes Java Servlets for backend operations, with a simple front-end built with HTML, CSS, and JavaScript. User data is managed in an SQL database.
 
