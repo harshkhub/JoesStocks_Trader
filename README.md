@@ -23,7 +23,7 @@ Before you begin, ensure you have met the following requirements:
 ## Setup and Installation
 
 1. **Clone the repository**
-2. **Clone the repository**
+2. **Finnhub API KEY**
 - Add your own free API key from finnhub to the mainServlet.java class
 
 3. **Database Configuration**
