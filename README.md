@@ -1,5 +1,4 @@
 # JoesStocks_Trader
-
 ![Search page](/search.jpg)
 ![Portfolio page](/trade.jpg)
 ![Trade page](/trade1.jpg)
