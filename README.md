@@ -23,20 +23,22 @@ Before you begin, ensure you have met the following requirements:
 ## Setup and Installation
 
 1. **Clone the repository**
+2. **Clone the repository**
+- Add your own free API key from finnhub to the mainServlet.java class
 
-2. **Database Configuration**
+3. **Database Configuration**
 - Import the initial setup SQL script located in `create.sql`.
 
-3. **Update Configuration Files**
+4. **Update Configuration Files**
 - Navigate to `src/main/resources` and update the `config.properties` file with your database credentials and Finnhub API key.
 
-4. **Build the project**
+5. **Build the project**
   
-5. **Deploy the WAR file**
+6. **Deploy the WAR file**
 - Locate the generated WAR file in the `target` directory.
 - Deploy this file to your Apache Tomcat server.
 
-6. **Access the Application**
+7. **Access the Application**
 - Open your web browser and go to `http://localhost:8080/stock-trading-platform`.
 
 ## Usage
