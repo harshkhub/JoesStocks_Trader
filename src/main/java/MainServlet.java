@@ -41,7 +41,7 @@ import java.util.ArrayList;
 }, loadOnStartup = 1)
 public class MainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String API_KEY = "cntlpl9r01qt3uhjdtb0cntlpl9r01qt3uhjdtbg";
+	private static final String API_KEY = "ADD_YOUR_OWN_FREE_KEY";
        
     /**
      * @see HttpServlet#HttpServlet()
